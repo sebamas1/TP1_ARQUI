@@ -61,12 +61,13 @@ module Test_bench;
             enables 
         );
     initial begin
+        $display("Resultado del test");
         i_clk = I_CLK;
         enables = I_EN;  
 
         dato_a = $urandom(2)%256;
         entrada = dato_a; //159, pone la entrada como el primer operador que es FA
-        $display("operador 1: %d", dato_a);
+        $display("dato a: %d", dato_a);
         
         #5
         enables[0] = 1; //carga la entrada en el primer operador
@@ -74,7 +75,7 @@ module Test_bench;
         enables[0] = 0; //da de baja el enable para el operador 1
         dato_b = $urandom()%256;
         entrada = dato_b; //9, setea el operador 2
-        $display("operador 2: %d", dato_b);
+        $display("dato b: %d", dato_b);
         enables[1] = 1; //carga el operador 2
         #5
         enables[1] = 0;
@@ -87,11 +88,13 @@ module Test_bench;
         #10
         expected_result = dato_a + dato_b;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[SUMA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        //$display("actual_result: %d", actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecta la suma");
+            $display("Incorrecta el test de la SUMA");
+        end else begin
+            $display("CORRECTO el test de la SUMA");
         end
         #20
         enables[2] = 0;
@@ -101,11 +104,12 @@ module Test_bench;
         #10
         expected_result = dato_a - dato_b;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[RESTA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecta la resta");
+            $display("Incorrecta el test de la RESTA");
+        end else begin
+            $display("CORRECTO el test de la RESTA");
         end
         #20
         enables[2] = 0;
@@ -115,11 +119,12 @@ module Test_bench;
         #10
         expected_result = dato_a & dato_b;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[AND] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el AND");
+            $display("Incorrecto el test del AND");
+        end else begin
+            $display("CORRECTO el test del AND");
         end
         #20
         enables[2] = 0;
@@ -129,11 +134,12 @@ module Test_bench;
         #10
         expected_result = dato_a | dato_b;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[OR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el OR");
+            $display("Incorrecto el test del OR");
+        end else begin
+            $display("CORRECTO el test del OR");
         end
         #20
         enables[2] = 0;
@@ -143,11 +149,12 @@ module Test_bench;
         #10
         expected_result = dato_a ^ dato_b;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[XOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el XOR");
+            $display("Incorrecto el test de XOR");
+        end else begin
+            $display("CORRECTO el test del XOR");
         end
         #20
         enables[2] = 0;
@@ -157,11 +164,12 @@ module Test_bench;
          #10
         expected_result = dato_a >>> 1;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[SRA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el SRA");
+            $display("Incorrecto el test de SRA");
+        end else begin
+            $display("CORRECTO el test de SRA");
         end
         #20
         enables[2] = 0;
@@ -171,11 +179,12 @@ module Test_bench;
          #10
         expected_result = dato_a >> 1;
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[SRL] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el SRL");
+            $display("Incorrecto el test de SRL");
+        end else begin
+            $display("CORRECTO el test de SRL");
         end
         #20
         enables[2] = 0;
@@ -185,11 +194,12 @@ module Test_bench;
          #10
         expected_result = ~(dato_a | dato_b);
         actual_result = salida;
-        $display("expected_result: %d", expected_result);
-        $display("actual_result: %d", actual_result);
+        $display("[NOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
         if(!(expected_result == actual_result))
         begin
-            $display("Incorrecto el NOR");
+            $display("Incorrecto el test de NOR");
+        end else begin
+            $display("CORRECTO el test de NOR");
         end
         #20
         enables[2] = 0;
