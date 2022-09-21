@@ -42,6 +42,10 @@ module Test_bench;
     reg i_clk;
     reg[ENABLE - 1 : 0] enables;
     reg[BUS_SIZE - 1 :0] entrada;
+    reg[BUS_SIZE - 1 :0] dato_a;
+    reg[BUS_SIZE - 1 :0] dato_b;
+    reg[BUS_SIZE - 1 :0] expected_result;
+    reg[BUS_SIZE - 1 :0] actual_result;
     
     
     wire[BUS_SIZE - 1 : 0] salida;
@@ -59,12 +63,18 @@ module Test_bench;
     initial begin
         i_clk = I_CLK;
         enables = I_EN;  
-        entrada = OPERADOR_1; //159, pone la entrada como el primer operador que es FA
+
+        dato_a = $urandom(2)%256;
+        entrada = dato_a; //159, pone la entrada como el primer operador que es FA
+        $display("operador 1: %d", dato_a);
+        
         #5
         enables[0] = 1; //carga la entrada en el primer operador
         #5
         enables[0] = 0; //da de baja el enable para el operador 1
-        entrada = OPERADOR_2; //9, setea el operador 2
+        dato_b = $urandom()%256;
+        entrada = dato_b; //9, setea el operador 2
+        $display("operador 2: %d", dato_b);
         enables[1] = 1; //carga el operador 2
         #5
         enables[1] = 0;
@@ -72,45 +82,116 @@ module Test_bench;
         enables[2] = 1; //carga la operacion que esta en 0
         #5
         enables[2] = 0;
-
         entrada = OP_ADD;
         enables[2] = 1;
-        #2
+        #10
+        expected_result = dato_a + dato_b;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecta la suma");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_SUB;
         enables[2] = 1;
-        #2
+        #10
+        expected_result = dato_a - dato_b;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecta la resta");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_AND;
         enables[2] = 1;
-        #2
+        #10
+        expected_result = dato_a & dato_b;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el AND");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_OR;
         enables[2] = 1;
-        #2
+        #10
+        expected_result = dato_a | dato_b;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el OR");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_XOR;
         enables[2] = 1;
-        #2
+        #10
+        expected_result = dato_a ^ dato_b;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el XOR");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_SRA;
         enables[2] = 1;
-        #2
+         #10
+        expected_result = dato_a >>> 1;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el SRA");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_SRL;
         enables[2] = 1;
-        #2
+         #10
+        expected_result = dato_a >> 1;
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el SRL");
+        end
+        #20
         enables[2] = 0;
         #10;
         entrada = OP_NOR;
         enables[2] = 1;
-        #2
+         #10
+        expected_result = ~(dato_a | dato_b);
+        actual_result = salida;
+        $display("expected_result: %d", expected_result);
+        $display("actual_result: %d", actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el NOR");
+        end
+        #20
         enables[2] = 0;
         #10
         $finish;
