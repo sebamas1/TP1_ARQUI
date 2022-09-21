@@ -15,3 +15,15 @@ Se tienen 3 entradas en la ALU:
 - El clock
 
 La entrada de enables sirve para discriminar que se quiere hacer con la entrada parametrizable; esto es, **si los enables estan en 1**, se toma como que la entrada es el primer operado, **si los enables estan en 2**, se toma como que la entrada es el segundo operando, **y si los enables estan en 4**, se toma como que se esta intentando ingresar el codigo de operacion.
+
+Basandose en el codigo de operacion, se hace un **case** y se guarda el resultado que corresponda en una variable de salida.
+
+## Verificacion
+
+Se intento generar una entrada aleatoria usando la funcion urandom, pero a menos que manualmente se cambie la seed de esta funcion, siempre genera el mismo valor. Para la verificacion automatica, simplemente se checkea que el/los valor/es random generado/s den correctamente el resultado esperado usando un **if**.
+
+Se adjunta una imagen de los resultados de la simulacion.
+
+![](simulacion.PNG)
+
+![](resultados.jpg)
