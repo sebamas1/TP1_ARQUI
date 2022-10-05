@@ -22,16 +22,16 @@
 
 module TP1 #(
         parameter OPERACION_SIZE = 6,
-        parameter BUS_SIZE = 8,
-        parameter ENABLE = 3
+        parameter BUS_SIZE = 8
     )
     (
-        input i_clk,
-        output o_carry_bit,
-        output o_zero_bit,
-        output [BUS_SIZE - 1 : 0] salida,
-        input [BUS_SIZE - 1 : 0] entrada,
-        input [ENABLE - 1 : 0] enables
+        input clk,
+        input [BUS_SIZE - 1 :0] sw,
+        input btnL,
+        input btnC,
+        input btnR,
+        output [BUS_SIZE + 1 :0] led
+        
     );
     
     localparam OP_ADD = 6'b100000;
@@ -46,21 +46,25 @@ module TP1 #(
     reg [BUS_SIZE - 1 : 0] operador_1; 
     reg [BUS_SIZE - 1 : 0] operador_2; 
     reg [OPERACION_SIZE - 1 : 0] operacion; 
-    reg[BUS_SIZE : 0] resultado;
+    reg[BUS_SIZE-1 : 0] resultado;
     
-    assign salida = resultado;
-    assign o_carry_bit = resultado[BUS_SIZE];
-    assign o_zero_bit = ~| salida; // nor sobre la salida, que pone en 1 el bit de zero en caso de que la operacion resultante sea 0
     
-        always @(posedge i_clk)  
+    assign led[BUS_SIZE] = resultado[BUS_SIZE]; //carry
+    assign led[BUS_SIZE+1] = ~| resultado[BUS_SIZE-1:0]; //zero
+    assign led[BUS_SIZE:0] = resultado;
+    
+        always @(posedge clk)  
     begin
-        operador_1 = enables[0] == 1 ? entrada : operador_1;
-        operador_2 = enables[1] == 1 ? entrada : operador_2;
-        operacion = enables[2] == 1 ? entrada : operacion;
-            
+        
+        operador_1 = btnR == 1 ? sw : operador_1;
+        operador_2 = btnC == 1 ? sw : operador_2;
+        operacion = btnL == 1 ? sw : operacion;
+        resultado[BUS_SIZE] = 0;
+        
         case(operacion)
             OP_ADD:
                 resultado = {1'b0, operador_1} + {1'b0, operador_2}; 
+                
             OP_SUB:
                 resultado = operador_1 - operador_2 ;
             OP_AND: 

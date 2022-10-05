@@ -24,8 +24,8 @@ module Test_bench;
     localparam OPERACION_SIZE = 6;
     localparam BUS_SIZE = 8;   
     localparam ENABLE = 3;
-    localparam I_CLK = 1'b0;
-    localparam I_EN = 3'b000;
+    localparam I_CLOK = 1'b0;
+    localparam I_ENABLE = 3'b000;
     localparam OPERADOR_1 = 8'h9F; //159  
     localparam OPERADOR_2 = 8'h02; //9 
     localparam I_OPERATION = 6'h0;
@@ -62,26 +62,26 @@ module Test_bench;
         );
     initial begin
         $display("Resultado del test");
-        i_clk = I_CLK;
-        enables = I_EN;  
+        i_clk = I_CLOK;
+        enables = I_ENABLE;  
 
         dato_a = $urandom(2)%256;
         entrada = dato_a; //159, pone la entrada como el primer operador que es FA
         $display("dato a: %d", dato_a);
         
-        #5
+        #10
         enables[0] = 1; //carga la entrada en el primer operador
-        #5
+        #10
         enables[0] = 0; //da de baja el enable para el operador 1
         dato_b = $urandom()%256;
         entrada = dato_b; //9, setea el operador 2
         $display("dato b: %d", dato_b);
         enables[1] = 1; //carga el operador 2
-        #5
+        #10
         enables[1] = 0;
         entrada = I_OPERATION;
         enables[2] = 1; //carga la operacion que esta en 0
-        #5
+        #10
         enables[2] = 0;
         entrada = OP_ADD;
         enables[2] = 1;

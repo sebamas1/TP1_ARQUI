@@ -1,0 +1,21 @@
+Time resolution is 1 ps
+Resultado del test
+dato a: 145
+dato b: 169
+[SUMA] Resultado Esperado:  58  vs   Resultado Actual:  58
+CORRECTO el test de la SUMA
+[RESTA] Resultado Esperado: 232  vs   Resultado Actual: 232
+CORRECTO el test de la RESTA
+[AND] Resultado Esperado: 129  vs   Resultado Actual: 129
+CORRECTO el test del AND
+[OR] Resultado Esperado: 185  vs   Resultado Actual: 185
+CORRECTO el test del OR
+[XOR] Resultado Esperado:  56  vs   Resultado Actual:  56
+CORRECTO el test del XOR
+[SRA] Resultado Esperado:  72  vs   Resultado Actual:  72
+CORRECTO el test de SRA
+[SRL] Resultado Esperado:  72  vs   Resultado Actual:  72
+CORRECTO el test de SRL
+[NOR] Resultado Esperado:  70  vs   Resultado Actual:  70
+CORRECTO el test de NOR
+$finish called at time : 360 ns : File "C:/Users/nehemias/Desktop/facu/repo/TP1_ARQUI/TP1_ARQUI.srcs/sim_1/new/Test_bench.v" Line 207
