@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Wed Oct 19 19:08:29 2022
+# Process ID: 5528
+# Current directory: C:/Users/nehemias/Desktop/facu/repo/TP1_ARQUI/TP1_ARQUI.runs/synth_1
+# Command line: vivado.exe -log Interface.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Interface.tcl
+# Log file: C:/Users/nehemias/Desktop/facu/repo/TP1_ARQUI/TP1_ARQUI.runs/synth_1/Interface.vds
+# Journal file: C:/Users/nehemias/Desktop/facu/repo/TP1_ARQUI/TP1_ARQUI.runs/synth_1\vivado.jou
+# Running On: DESKTOP-829O8AH, OS: Windows, CPU Frequency: 2904 MHz, CPU Physical cores: 2, Host memory: 12797 MB
+#-----------------------------------------------------------
+source Interface.tcl -notrace

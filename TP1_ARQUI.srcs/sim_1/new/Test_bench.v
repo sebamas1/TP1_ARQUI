@@ -40,170 +40,52 @@ module Test_bench;
 
 
     reg i_clk;
-    reg[ENABLE - 1 : 0] enables;
-    reg[BUS_SIZE - 1 :0] entrada;
     reg[BUS_SIZE - 1 :0] dato_a;
     reg[BUS_SIZE - 1 :0] dato_b;
+    reg[BUS_SIZE - 1 :0] o_operando_1;
+    reg[BUS_SIZE - 1 :0] o_operando_2;
+    reg[5 :0] o_operacion;
     reg[BUS_SIZE - 1 :0] expected_result;
     reg[BUS_SIZE - 1 :0] actual_result;
     
     
-    wire[BUS_SIZE - 1 : 0] salida;
+    wire[9 : 0] salida;
     wire o_carry_bit;
     wire o_zero_bit;
 
-    TP1 test_unit(
+    Interface test_unit(
             i_clk,
-            o_carry_bit,
-            o_zero_bit,
-            salida,
-            entrada,            
-            enables 
+            o_operando_1,
+            o_operando_2,
+            o_operacion,
+            salida
         );
     initial begin
         $display("Resultado del test");
         i_clk = I_CLK;
-        enables = I_EN;  
-
         dato_a = $urandom(2)%256;
-        entrada = dato_a; //159, pone la entrada como el primer operador que es FA
+        
+        o_operando_1 = dato_a; //159, pone la entrada como el primer operador que es FA
         $display("dato a: %d", dato_a);
         
         #5
-        enables[0] = 1; //carga la entrada en el primer operador
-        #5
-        enables[0] = 0; //da de baja el enable para el operador 1
-        dato_b = $urandom()%256;
-        entrada = dato_b; //9, setea el operador 2
+         dato_b = $urandom()%256;
+        o_operando_2 = dato_b; //9, setea el operador 2
         $display("dato b: %d", dato_b);
-        enables[1] = 1; //carga el operador 2
         #5
-        enables[1] = 0;
-        entrada = I_OPERATION;
-        enables[2] = 1; //carga la operacion que esta en 0
-        #5
-        enables[2] = 0;
-        entrada = OP_ADD;
-        enables[2] = 1;
+        o_operacion = OP_ADD;
         #10
         expected_result = dato_a + dato_b;
         actual_result = salida;
         $display("[SUMA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        //$display("actual_result: %d", actual_result);
+
         if(!(expected_result == actual_result))
         begin
             $display("Incorrecta el test de la SUMA");
         end else begin
             $display("CORRECTO el test de la SUMA");
         end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_SUB;
-        enables[2] = 1;
-        #10
-        expected_result = dato_a - dato_b;
-        actual_result = salida;
-        $display("[RESTA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecta el test de la RESTA");
-        end else begin
-            $display("CORRECTO el test de la RESTA");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_AND;
-        enables[2] = 1;
-        #10
-        expected_result = dato_a & dato_b;
-        actual_result = salida;
-        $display("[AND] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test del AND");
-        end else begin
-            $display("CORRECTO el test del AND");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_OR;
-        enables[2] = 1;
-        #10
-        expected_result = dato_a | dato_b;
-        actual_result = salida;
-        $display("[OR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test del OR");
-        end else begin
-            $display("CORRECTO el test del OR");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_XOR;
-        enables[2] = 1;
-        #10
-        expected_result = dato_a ^ dato_b;
-        actual_result = salida;
-        $display("[XOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test de XOR");
-        end else begin
-            $display("CORRECTO el test del XOR");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_SRA;
-        enables[2] = 1;
-         #10
-        expected_result = dato_a >>> 1;
-        actual_result = salida;
-        $display("[SRA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test de SRA");
-        end else begin
-            $display("CORRECTO el test de SRA");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_SRL;
-        enables[2] = 1;
-         #10
-        expected_result = dato_a >> 1;
-        actual_result = salida;
-        $display("[SRL] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test de SRL");
-        end else begin
-            $display("CORRECTO el test de SRL");
-        end
-        #20
-        enables[2] = 0;
-        #10;
-        entrada = OP_NOR;
-        enables[2] = 1;
-         #10
-        expected_result = ~(dato_a | dato_b);
-        actual_result = salida;
-        $display("[NOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
-        if(!(expected_result == actual_result))
-        begin
-            $display("Incorrecto el test de NOR");
-        end else begin
-            $display("CORRECTO el test de NOR");
-        end
-        #20
-        enables[2] = 0;
-        #10
+        
         $finish;
     end
     
