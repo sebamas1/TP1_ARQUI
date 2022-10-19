@@ -23,9 +23,9 @@
 module Interface
         (
         input i_clk,
-        output [7 :0] o_operando_1,
-        output [7 :0] o_operando_2,
-        output [5 : 0] o_operacion,
+        input [7 :0] o_operando_1,
+        input [7 :0] o_operando_2,
+        input [5 : 0] o_operacion,
         output [9 : 0] salida
         );
         

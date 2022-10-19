@@ -1,34 +1,8 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 17.09.2022 14:13:23
-// Design Name: 
-// Module Name: Test_bench
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module Test_bench;
-    localparam OPERACION_SIZE = 6;
     localparam BUS_SIZE = 8;   
-    localparam ENABLE = 3;
     localparam I_CLK = 1'b0;
-    localparam I_EN = 3'b000;
-    localparam OPERADOR_1 = 8'h9F; //159  
-    localparam OPERADOR_2 = 8'h02; //9 
-    localparam I_OPERATION = 6'h0;
     localparam OP_ADD = 6'b100000;
     localparam OP_SUB = 6'b100010;
     localparam OP_AND = 6'b100100;
@@ -48,10 +22,7 @@ module Test_bench;
     reg[BUS_SIZE - 1 :0] expected_result;
     reg[BUS_SIZE - 1 :0] actual_result;
     
-    
     wire[9 : 0] salida;
-    wire o_carry_bit;
-    wire o_zero_bit;
 
     Interface test_unit(
             i_clk,
@@ -65,12 +36,12 @@ module Test_bench;
         i_clk = I_CLK;
         dato_a = $urandom(2)%256;
         
-        o_operando_1 = dato_a; //159, pone la entrada como el primer operador que es FA
+        o_operando_1 = dato_a;
         $display("dato a: %d", dato_a);
         
         #5
          dato_b = $urandom()%256;
-        o_operando_2 = dato_b; //9, setea el operador 2
+        o_operando_2 = dato_b;
         $display("dato b: %d", dato_b);
         #5
         o_operacion = OP_ADD;
@@ -85,6 +56,130 @@ module Test_bench;
         end else begin
             $display("CORRECTO el test de la SUMA");
         end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST SUMA /////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_SUB;
+        #10;
+        
+        expected_result = dato_a - dato_b;
+        actual_result = salida;
+        $display("[RESTA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecta el test de la RESTA");
+        end else begin
+            $display("CORRECTO el test de la RESTA");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST RESTA ////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_AND;
+        #10
+        expected_result = dato_a & dato_b;
+        actual_result = salida;
+        $display("[AND] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test del AND");
+        end else begin
+            $display("CORRECTO el test del AND");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST AND //////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_OR;
+        #10
+        expected_result = dato_a | dato_b;
+        actual_result = salida;
+        $display("[OR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test del OR");
+        end else begin
+            $display("CORRECTO el test del OR");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST OR ///////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_XOR;
+        #10
+        expected_result = dato_a ^ dato_b;
+        actual_result = salida;
+        $display("[XOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test de XOR");
+        end else begin
+            $display("CORRECTO el test del XOR");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST XOR //////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_SRA;
+        #10
+        expected_result = dato_a >>> 1;
+        actual_result = salida;
+        $display("[SRA] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test de SRA");
+        end else begin
+            $display("CORRECTO el test de SRA");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST SRA //////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10;
+        o_operacion = OP_SRL;
+        #10
+        expected_result = dato_a >> 1;
+        actual_result = salida;
+        $display("[SRL] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test de SRL");
+        end else begin
+            $display("CORRECTO el test de SRL");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST SRL //////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        #10
+        o_operacion = OP_NOR;
+        #10
+        expected_result = ~(dato_a | dato_b);
+        actual_result = salida;
+        $display("[NOR] Resultado Esperado: %d  vs   Resultado Actual: %d", expected_result, actual_result);
+        if(!(expected_result == actual_result))
+        begin
+            $display("Incorrecto el test de NOR");
+        end else begin
+            $display("CORRECTO el test de NOR");
+        end
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////// FIN TEST NOR //////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////
         
         $finish;
     end
